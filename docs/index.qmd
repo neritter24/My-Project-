@@ -1,27 +1,147 @@
 ---
-title: "My Project"
-author: "Natalie Ritter"
-format: html
-editor: visual
+title: "Practice"
+author: "Natalie R."
+date: today
+format:
+  html:
+    theme: darkly
+    toc: true
+    toc-location: left
+    page-layout: article
+    number-sections: true
+    code-fold: show
+bibliography: references.bib
+page-layout: article
 ---
 
-## Quarto
+# Headers
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+## level 2 Header
 
-## Running Code
+### level 3 Header
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+#### level 4 Header
 
-```{r}
-1 + 1
+##### level 5 Header
+
+###### Level 6 header
+
+``` markdown
+testing testing !
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+2 + 2 + 2 
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Text Functions
+
+**bold**
+
+*italicize*
+
+***both bold and italics***
+
+~~strikethrough~~
+
+# Order Lists
+
+-   Item 1
+-   Item 2
+    -   Sub-item 2a
+    -   Sub-item 2b
+
+1.  First step
+
+# Hyperlink
+
+[hyperlink](https://quarto.org)
+
+# Tabsets
+
+::::: panel-tabset
+## Tab 1
+
+::: panel-tabset
+## First child
+
+testing testing
+
+## Second Child
+:::
+
+## Tab 2
+
+::: panel-tabset
+## First child
+
+## Second Child
+:::
+:::::
+
+# Loading Libraries & Reading Data
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+#| echo: fenced
+
+library(tidyverse)
+library(knitr)
+
+my_data <- mtcars
+my_real_data <- read_csv("../data/taxonomic_data_2.csv")
+#../ goes back one parent directory so you can access the data folder. Remember this RMD quarto document is sitting in the docs folder so we need to do the ../ to get back to our main directory.
+head(my_real_data)
+```
+
+# Inserting Figures and Figure Captions
+
+```{r}
+#| label: fig-mpg
+#| fig-cap: "Scatterplot of Car Weight vs. MPG"
+#| echo: fenced
+
+ggplot(my_data, aes(x = wt, y = mpg)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Weight", y = "Miles Per Gallon")
+```
+
+::: callout-tip
+Notice how we can also do this: as shown in @fig-mpg
+:::
+
+```{r}
+#| label: tbl-summary
+#| fig-cap: "Average MPG by Cylinder Count"
+#| echo: fenced
+
+my_data %>% 
+  group_by(cyl) %>% 
+  summarise(avg_mpg = mean(mpg)) %>% 
+  kable()
+  
+```
+
+# Inserting an Image
+
+![](images/EIF.jpeg) {.lightbox fig-align="center" width = "50%"}
+
+# LaTex syntax
+
+1.  Examples
+
+<!-- -->
+
+a)  $y = mx + b$
+b)  $$ \frac {1.5}{2.3}$$
+c)  $$ Y = X_1 + X^2$$
+d)  $$ \sqrt{p^2}$$
+
+# Citations
+
+<!-- You have to be in visual mode for this -->
+
+This is a really good paper [@cook2015].
